@@ -1,0 +1,47 @@
+<project name="Algebra" default="run" basedir=".">
+  <description>
+     Build file for package us.quartyard.algebra
+  </description>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the source " >
+    <javac srcdir="${src}" destdir="${build}" debug="true" />
+  </target>
+
+  <target name="dist" depends="compile"
+          description="generate the distribution" >
+    <mkdir dir="${dist}/lib"/>
+    <jar jarfile="${dist}/lib/Algebra.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="us.quartyard.algebra.Polynomial"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean"
+          description="clean up" >
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+  <target name="rebuild"
+          description="teardown and replace"
+          depends="clean, dist" >
+  </target>
+
+  <target name="run"
+        depends="rebuild" >
+    <java jar="${dist}/lib/Algebra.jar" fork="true" > </java>
+  </target>
+
+
+</project>
+
